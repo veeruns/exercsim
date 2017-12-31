@@ -17,10 +17,5 @@ func Square(input int) (uint64, error) {
 
 //Total returns the total of squares from 1 to 64
 func Total() uint64 {
-	var sum uint64
-	for i := 1; i < 65; i++ {
-		rep, _ := Square(i)
-		sum += rep
-	}
-	return sum
+	return ^(uint64(0))
 }
