@@ -1,111 +1,53 @@
-//Pacakge clock implements clock type and associated methods
+//Package clock implements clock type and associated methods
 package clock
 
 import "fmt"
 
+//Clock exports the clock structure
 type Clock struct {
 	hour   int
 	minute int
 }
 
-func (cl *Clock) Add(min int) *Clock {
-	var residueminute int
-	fmt.Printf("Add Hour %d:minute %d Add %d\n", cl.hour, cl.minute, min)
+//Add implements Add method for clock
+func (cl Clock) Add(min int) Clock {
 
 	cl.minute = cl.minute + min
-	fmt.Printf("Current minute %d\n", cl.minute)
-	if cl.minute >= 60 {
 
-		residueminute = cl.minute / 60
-		cl.minute = cl.minute % 60
-	}
-	cl.hour = cl.hour + residueminute
-	if cl.hour > 23 {
-		cl.hour = cl.hour % 24
-	}
-	return cl
-}
-
-func New(hour int, minute int) *Clock {
-
-	//var residueminute int
-	cl := new(Clock)
-	t1, t2 := rollover(hour, minute)
-	fmt.Printf("Rollover NEW %.2d:%.2d\n", t1, t2)
-	/*	fmt.Printf("Before Input Hour %d:minute %d\n", hour, minute)
-		if hour < 0 {
-			hour = 24 - (hour*-1)%24
-		}
-		if minute < 0 {
-			minute = 60 - minute
-		}
-		fmt.Printf("After Hour %d:minute %d\n", hour, minute)
-
-		cl.hour = hour
-		cl.minute = minute
-		if cl.minute >= 60 {
-
-			residueminute = cl.minute / 60
-			cl.minute = cl.minute % 60
-		}
-		fmt.Printf("Residue minute %d\n", residueminute)
-		cl.hour = cl.hour + residueminute
-		if cl.hour > 23 {
-			cl.hour = cl.hour % 24
-		}
-		fmt.Printf("Hour %d:minute %d\n", cl.hour, cl.minute)
-	*/
+	t1, t2 := rollover(cl.hour, cl.minute)
 	cl.hour = t1
 	cl.minute = t2
-	return cl
+	return Clock{t1, t2}
 }
 
-func (cl *Clock) String() string {
-	//var residueminute int
-	//var convertminute int
+//New constructor for Clock
+func New(hour int, minute int) Clock {
+	t1, t2 := rollover(hour, minute)
+	return Clock{t1, t2}
+}
+
+//String method to print the time
+func (cl Clock) String() string {
 	var hour, minute int
 	hour = cl.hour
 	minute = cl.minute
 	t1, t2 := rollover(hour, minute)
-	fmt.Printf("Rollover %.2d:%.2d\n", t1, t2)
-	/*if hour < 0 {
-		hour = 24 - (hour*-1)%24
-	}
-	if minute < 0 {
-		minute = 60 - minute
-	}
-	cl.hour = hour
-	cl.minute = minute
-	if cl.minute >= 60 {
-
-		residueminute = cl.minute / 60
-		cl.minute = 0
-	}
-	cl.hour = cl.hour + residueminute
-	if cl.hour > 23 {
-		cl.hour = cl.hour % 24
-	}
-	*/
-
 	var retstring string
 	retstring = fmt.Sprintf("%.2d:%.2d", t1, t2)
-	fmt.Printf("return string is %s\n", retstring)
 	return retstring
 
 }
 
+//rollover method that is private to take care of rollingover
 func rollover(hour int, minute int) (int, int) {
 	var totalmin int
 	var residualminute int
-
-	fmt.Printf("\nRollover Input Hour %d:minute %d\n", hour, minute)
 	totalmin = (hour*60 + minute) % 1440
 	if totalmin < 0 {
-		fmt.Printf("Calculation %d, %d \n", totalmin, (totalmin*-1)%1440)
 		totalmin = totalmin + 1440
 
 	}
-	fmt.Printf("Total minute %d\n", totalmin)
+	//fmt.Printf("Total minute %d\n", totalmin)
 	ophour := totalmin / 60
 	residualminute = totalmin % 60
 
