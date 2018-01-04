@@ -1,0 +1,8 @@
+go test -bench=.
+ChildId greater than ParentID
+ChildId greater than ParentID
+BenchmarkTwoTree-8       	       1	11080549000 ns/op
+BenchmarkTenTree-8       	       5	 252719400 ns/op
+BenchmarkShallowTree-8   	       2	 870752000 ns/op
+PASS
+ok  	_/Users/veeru/exercism/go/tree-building	16.036s
