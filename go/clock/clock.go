@@ -11,9 +11,7 @@ type Clock struct {
 
 //Add implements Add method for clock
 func (cl Clock) Add(min int) Clock {
-
 	cl.minute = cl.minute + min
-
 	t1, t2 := rollover(cl.hour, cl.minute)
 	cl.hour = t1
 	cl.minute = t2
